@@ -11,7 +11,8 @@ def init(max_readings):
     """
     Crea y retorna un diccionario para almacenar hasta max_readings lecturas.
     """
-    # TODO: Implementar
+    
+    return { 'max': max_readings, 'readings': [] , 'total': 0.0 }
     pass
 
 
@@ -20,7 +21,10 @@ def add_reading(monitor, temp):
     Agrega una nueva lectura con la temperatura especificada.
     Retorna el diccionario modificado.
     """
-    # TODO: Implementar
+    if len(monitor['readings']) < monitor['max']:
+        monitor['readings'].append(temp)
+        monitor['total'] += temp
+    return monitor
     pass
 
 
@@ -28,7 +32,8 @@ def count(monitor):
     """
     Retorna el numero de lecturas agregadas.
     """
-    # TODO: Implementar
+    
+    return len(monitor['readings'])
     pass
 
 
@@ -36,7 +41,7 @@ def average_temp(monitor):
     """
     Retorna la temperatura promedio de todas las lecturas.
     """
-    # TODO: Implementar
+    return monitor['total'] / len(monitor['readings']) if monitor['readings'] else 0.0
     pass
 
 
@@ -45,7 +50,7 @@ def format_readings(monitor):
     Retorna una representacion en cadena de las temperaturas.
     Formato: [t1, t2, t3, ..., tn]
     """
-    # TODO: Implementar
+    return str(monitor['readings'])
     pass
 
 
@@ -53,7 +58,7 @@ def highest_temp(monitor):
     """
     Retorna la temperatura mas alta de cualquier lectura.
     """
-    # TODO: Implementar
+    return max(monitor['readings']) if monitor['readings'] else None
     pass
 
 
@@ -61,7 +66,14 @@ def coldest_window(monitor, k):
     """
     Retorna el promedio mas bajo de cualquier k lecturas consecutivas.
     """
-    # TODO: Implementar
+    if len(monitor['readings']) < k:
+        return None 
+    min_avg = float('inf')
+    for i in range(len(monitor['readings']) - k + 1):
+        window_avg = sum(monitor['readings'][i:i+k]) / k
+        min_avg = min(min_avg, window_avg)
+    return min_avg  
+
     pass
 
 
@@ -70,7 +82,16 @@ def longest_rising_streak(monitor):
     Retorna la longitud maxima de una secuencia de lecturas consecutivas
     donde las temperaturas aumentan estrictamente.
     """
-    # TODO: Implementar
+    max_streak = 0
+    current_streak = 0
+    for i in range(1, len(monitor['readings'])):
+        if monitor['readings'][i] > monitor['readings'][i - 1]:
+            current_streak += 1
+            max_streak = max(max_streak, current_streak)
+        else:
+            current_streak = 0
+    return max_streak + 1 if max_streak > 0 else 0
+
     pass
 
 
