@@ -83,14 +83,13 @@ def longest_rising_streak(monitor):
     donde las temperaturas aumentan estrictamente.
     """
     max_streak = 0
-    current_streak = 0
+    current_streak = 1
     for i in range(1, len(monitor['readings'])):
         if monitor['readings'][i] > monitor['readings'][i - 1]:
             current_streak += 1
         else:
             max_streak = max(max_streak, current_streak)
-            current_streak = 0
-
+            current_streak = 1
 
     return max_streak if max_streak > 0 else 0
 
